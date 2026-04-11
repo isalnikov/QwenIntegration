@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+
+    <!-- ========== STEP 1: Register all Actions in Actions/ folder ========== -->
+    <folder name="Actions">
+        <folder name="Qwen">
+            <attr name="displayName" bundlevalue="org.netbeans.modules.qwen.Bundle#menu.name" />
+
+            <file name="org-netbeans-modules-qwen-ui-QwenAction-ExplainAction.instance">
+                <attr name="instanceCreate" newvalue="org.netbeans.modules.qwen.ui.QwenAction$Explain"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-ui-QwenAction-GenerateAction.instance">
+                <attr name="instanceCreate" newvalue="org.netbeans.modules.qwen.ui.QwenAction$Generate"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-ui-QwenAction-RefactorAction.instance">
+                <attr name="instanceCreate" newvalue="org.netbeans.modules.qwen.ui.QwenAction$Refactor"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-ui-QwenAction-TestAction.instance">
+                <attr name="instanceCreate" newvalue="org.netbeans.modules.qwen.ui.QwenAction$Test"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-ui-QwenAction-SecurityAction.instance">
+                <attr name="instanceCreate" newvalue="org.netbeans.modules.qwen.ui.QwenAction$Security"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-ui-QwenAction-AgentAction.instance">
+                <attr name="instanceCreate" newvalue="org.netbeans.modules.qwen.ui.QwenAction$Agent"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-ui-QwenAction-ConsoleAction.instance">
+                <attr name="instanceCreate" newvalue="org.netbeans.modules.qwen.ui.QwenAction$OpenConsole"/>
+            </file>
+        </folder>
+    </folder>
+
+    <!-- ========== STEP 2: Main menu bar — Qwen AI ========== -->
+    <folder name="Menu">
+        <folder name="QwenAI">
+            <attr name="displayName" bundlevalue="org.netbeans.modules.qwen.Bundle#menu.name" />
+            <attr name="position" intvalue="350"/>
+
+            <file name="Explain.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-ExplainAction.instance"/>
+                <attr name="position" intvalue="100"/>
+            </file>
+            <file name="Generate.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-GenerateAction.instance"/>
+                <attr name="position" intvalue="200"/>
+            </file>
+            <file name="Refactor.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-RefactorAction.instance"/>
+                <attr name="position" intvalue="300"/>
+            </file>
+            <file name="Test.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-TestAction.instance"/>
+                <attr name="position" intvalue="400"/>
+            </file>
+            <file name="Security.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-SecurityAction.instance"/>
+                <attr name="position" intvalue="500"/>
+            </file>
+
+            <!-- Separator -->
+            <file name="sep1.instance">
+                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                <attr name="position" intvalue="550"/>
+            </file>
+
+            <file name="Agent.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-AgentAction.instance"/>
+                <attr name="position" intvalue="600"/>
+            </file>
+            <file name="Console.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-ConsoleAction.instance"/>
+                <attr name="position" intvalue="700"/>
+            </file>
+        </folder>
+    </folder>
+
+    <!-- ========== STEP 3: Toolbar — Qwen AI ========== -->
+    <folder name="Toolbars">
+        <folder name="QwenAI">
+            <attr name="displayName" bundlevalue="org.netbeans.modules.qwen.Bundle#toolbar.name" />
+            <attr name="position" intvalue="110"/>
+
+            <file name="Explain.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-ExplainAction.instance"/>
+                <attr name="position" intvalue="100"/>
+            </file>
+            <file name="Generate.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-GenerateAction.instance"/>
+                <attr name="position" intvalue="200"/>
+            </file>
+            <file name="Refactor.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-RefactorAction.instance"/>
+                <attr name="position" intvalue="300"/>
+            </file>
+            <file name="Test.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-TestAction.instance"/>
+                <attr name="position" intvalue="400"/>
+            </file>
+            <file name="Security.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-SecurityAction.instance"/>
+                <attr name="position" intvalue="500"/>
+            </file>
+
+            <file name="sep1.instance">
+                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                <attr name="position" intvalue="550"/>
+            </file>
+
+            <file name="Agent.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-AgentAction.instance"/>
+                <attr name="position" intvalue="600"/>
+            </file>
+            <file name="Console.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-ConsoleAction.instance"/>
+                <attr name="position" intvalue="700"/>
+            </file>
+        </folder>
+    </folder>
+
+    <!-- ========== STEP 4: Editor right-click context menu ========== -->
+    <folder name="Editors">
+        <folder name="Popup">
+            <file name="qwen-separator.instance">
+                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                <attr name="position" intvalue="450"/>
+            </file>
+            <file name="qwen-explain.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-ExplainAction.instance"/>
+                <attr name="position" intvalue="451"/>
+            </file>
+            <file name="qwen-generate.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-GenerateAction.instance"/>
+                <attr name="position" intvalue="452"/>
+            </file>
+            <file name="qwen-refactor.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-RefactorAction.instance"/>
+                <attr name="position" intvalue="453"/>
+            </file>
+            <file name="qwen-test.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-TestAction.instance"/>
+                <attr name="position" intvalue="454"/>
+            </file>
+            <file name="qwen-security.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-ui-QwenAction-SecurityAction.instance"/>
+                <attr name="position" intvalue="455"/>
+            </file>
+        </folder>
+    </folder>
+
+</filesystem>
