@@ -1,40 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD FileSystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
 
-    <!-- ========== MENU: Qwen AI (top-level in menu bar) ========== -->
+    <!-- ========== STEP 1: Register all Actions as .instance files ========== -->
+    <folder name="Actions">
+        <folder name="Qwen">
+            <file name="org-netbeans-modules-qwen-actions-CheckAction.instance">
+                <attr name="instanceClass" stringvalue="org.netbeans.modules.qwen.actions.CheckAction"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-actions-ExplainAction.instance">
+                <attr name="instanceClass" stringvalue="org.netbeans.modules.qwen.actions.ExplainAction"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-actions-GenerateAction.instance">
+                <attr name="instanceClass" stringvalue="org.netbeans.modules.qwen.actions.GenerateAction"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-actions-RefactorAction.instance">
+                <attr name="instanceClass" stringvalue="org.netbeans.modules.qwen.actions.RefactorAction"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-actions-TestAction.instance">
+                <attr name="instanceClass" stringvalue="org.netbeans.modules.qwen.actions.TestAction"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-actions-SecurityAction.instance">
+                <attr name="instanceClass" stringvalue="org.netbeans.modules.qwen.actions.SecurityAction"/>
+            </file>
+            <file name="org-netbeans-modules-qwen-actions-OpenConsoleAction.instance">
+                <attr name="instanceClass" stringvalue="org.netbeans.modules.qwen.actions.OpenConsoleAction"/>
+            </file>
+        </folder>
+    </folder>
+
+    <!-- ========== STEP 2: Menu — Qwen AI (top-level in menu bar) ========== -->
     <folder name="Menu">
         <folder name="Qwen">
             <attr name="displayName" stringvalue="Qwen AI"/>
             <attr name="position" intvalue="350"/>
 
+            <file name="Check.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-CheckAction.instance"/>
+                <attr name="position" intvalue="100"/>
+            </file>
             <file name="Explain.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-ExplainAction.instance"/>
-                <attr name="position" intvalue="100"/>
+                <attr name="position" intvalue="200"/>
             </file>
             <file name="Generate.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-GenerateAction.instance"/>
-                <attr name="position" intvalue="200"/>
+                <attr name="position" intvalue="300"/>
             </file>
             <file name="Refactor.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-RefactorAction.instance"/>
-                <attr name="position" intvalue="300"/>
+                <attr name="position" intvalue="400"/>
             </file>
             <file name="Test.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-TestAction.instance"/>
-                <attr name="position" intvalue="400"/>
+                <attr name="position" intvalue="500"/>
             </file>
             <file name="Security.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-SecurityAction.instance"/>
-                <attr name="position" intvalue="500"/>
+                <attr name="position" intvalue="600"/>
             </file>
             <file name="sep1.instance">
                 <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
-                <attr name="position" intvalue="550"/>
-            </file>
-            <file name="Check.shadow">
-                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-CheckAction.instance"/>
-                <attr name="position" intvalue="600"/>
+                <attr name="position" intvalue="650"/>
             </file>
             <file name="Console.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-OpenConsoleAction.instance"/>
@@ -43,39 +70,39 @@
         </folder>
     </folder>
 
-    <!-- ========== TOOLBAR: Qwen AI (View → Toolbars → Qwen AI) ========== -->
+    <!-- ========== STEP 3: Toolbar — Qwen AI (View > Toolbars > Qwen) ========== -->
     <folder name="Toolbars">
         <folder name="Qwen">
             <attr name="displayName" stringvalue="Qwen AI"/>
             <attr name="position" intvalue="110"/>
 
+            <file name="Check.shadow">
+                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-CheckAction.instance"/>
+                <attr name="position" intvalue="100"/>
+            </file>
             <file name="Explain.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-ExplainAction.instance"/>
-                <attr name="position" intvalue="100"/>
+                <attr name="position" intvalue="200"/>
             </file>
             <file name="Generate.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-GenerateAction.instance"/>
-                <attr name="position" intvalue="200"/>
+                <attr name="position" intvalue="300"/>
             </file>
             <file name="Refactor.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-RefactorAction.instance"/>
-                <attr name="position" intvalue="300"/>
+                <attr name="position" intvalue="400"/>
             </file>
             <file name="Test.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-TestAction.instance"/>
-                <attr name="position" intvalue="400"/>
+                <attr name="position" intvalue="500"/>
             </file>
             <file name="Security.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-SecurityAction.instance"/>
-                <attr name="position" intvalue="500"/>
+                <attr name="position" intvalue="600"/>
             </file>
             <file name="sep1.instance">
                 <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
-                <attr name="position" intvalue="550"/>
-            </file>
-            <file name="Check.shadow">
-                <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-CheckAction.instance"/>
-                <attr name="position" intvalue="600"/>
+                <attr name="position" intvalue="650"/>
             </file>
             <file name="Console.shadow">
                 <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-OpenConsoleAction.instance"/>
@@ -84,10 +111,10 @@
         </folder>
     </folder>
 
-    <!-- ========== CONTEXT MENU: right-click in any text editor ========== -->
+    <!-- ========== STEP 4: Context menu — right-click in Java editor ========== -->
     <folder name="Editors">
         <folder name="text">
-            <folder name="x-all">
+            <folder name="x-java">
                 <folder name="Popup">
                     <file name="qwen-separator.instance">
                         <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
@@ -112,6 +139,24 @@
                     <file name="qwen-security.shadow">
                         <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-SecurityAction.instance"/>
                         <attr name="position" intvalue="455"/>
+                    </file>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+
+    <!-- ========== STEP 5: Global context menu (all files) ========== -->
+    <folder name="Loaders">
+        <folder name="text">
+            <folder name="x-java">
+                <folder name="Actions">
+                    <file name="qwen-explain.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-ExplainAction.instance"/>
+                        <attr name="position" intvalue="350"/>
+                    </file>
+                    <file name="qwen-generate.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Qwen/org-netbeans-modules-qwen-actions-GenerateAction.instance"/>
+                        <attr name="position" intvalue="351"/>
                     </file>
                 </folder>
             </folder>

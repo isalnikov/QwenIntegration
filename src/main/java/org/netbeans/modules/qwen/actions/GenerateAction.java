@@ -8,19 +8,16 @@ import javax.swing.text.JTextComponent;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
-import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle.Messages;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 
 @ActionID(category = "Qwen", id = "org.netbeans.modules.qwen.actions.GenerateAction")
-@ActionRegistration(displayName = "#CTL_GenerateAction", lazy = false)
-@Messages("CTL_GenerateAction=Qwen: Generate Code")
 public final class GenerateAction extends AbstractAction {
     private static final InputOutput IO = IOProvider.getDefault().getIO("Qwen AI", true);
+    public GenerateAction() { putValue(NAME, "Qwen: Generate Code"); }
     @Override public void actionPerformed(ActionEvent e) {
         JTextComponent ed = get(); if (ed == null) { warn("No editor."); return; }
-        try { IO.getOut().println("=== Qwen: Generate === (" + getText(ed).length() + " chars)"); IO.select(); } catch (Exception ex) {}
+        try { IO.getOut().println("=== Qwen: Generate (" + getText(ed).length() + " chars)"); IO.select(); } catch (Exception ex) {}
     }
     private String getText(JTextComponent e) { String s = e.getSelectedText(); return (s==null||s.isEmpty())? e.getText() : s; }
     private JTextComponent get() { Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner(); return (c instanceof JTextComponent)?(JTextComponent)c:null; }

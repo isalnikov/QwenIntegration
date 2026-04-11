@@ -8,21 +8,21 @@ import javax.swing.text.JTextComponent;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
-import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle.Messages;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 
 /**
  * Explain selected code using Qwen AI.
- * Registered via layer.xml: Menu, Toolbar, and Editor context menu.
+ * Registered via layer.xml: Menu, Toolbar, Editor Popup.
  */
 @ActionID(category = "Qwen", id = "org.netbeans.modules.qwen.actions.ExplainAction")
-@ActionRegistration(displayName = "#CTL_ExplainAction", lazy = false)
-@Messages("CTL_ExplainAction=Qwen: Explain Code")
 public final class ExplainAction extends AbstractAction {
 
     private static final InputOutput IO = IOProvider.getDefault().getIO("Qwen AI", true);
+
+    public ExplainAction() {
+        putValue(NAME, "Qwen: Explain Code");
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -37,7 +37,6 @@ public final class ExplainAction extends AbstractAction {
         try {
             IO.getOut().println("=== Qwen: Explain Code ===");
             IO.getOut().println("Selected " + code.length() + " characters");
-            IO.getOut().println("Ready to send to qwen-code-cli");
             IO.select();
         } catch (Exception ex) {}
     }
