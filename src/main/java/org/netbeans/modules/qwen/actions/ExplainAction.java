@@ -9,22 +9,16 @@ import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
-import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 
 /**
  * Explain selected code using Qwen AI.
+ * Registered via layer.xml: Menu, Toolbar, and Editor context menu.
  */
 @ActionID(category = "Qwen", id = "org.netbeans.modules.qwen.actions.ExplainAction")
 @ActionRegistration(displayName = "#CTL_ExplainAction", lazy = false)
-@ActionReferences({
-    @ActionReference(path = "Editors/text/plain/Popup", position = 450),
-    @ActionReference(path = "Menu/Qwen", position = 100),
-    @ActionReference(path = "Toolbars/Qwen", position = 100)
-})
 @Messages("CTL_ExplainAction=Qwen: Explain Code")
 public final class ExplainAction extends AbstractAction {
 
@@ -35,22 +29,22 @@ public final class ExplainAction extends AbstractAction {
         JTextComponent ed = getEditor();
         if (ed == null) { warn("No editor active."); return; }
         String t = getText(ed);
-        if (t.isEmpty()) { warn("No text selected."); return; }
-        run("Explain this code clearly, line by line:", t);
+        if (t.isEmpty()) { warn("No text."); return; }
+        run(t);
+    }
+
+    private void run(String code) {
+        try {
+            IO.getOut().println("=== Qwen: Explain Code ===");
+            IO.getOut().println("Selected " + code.length() + " characters");
+            IO.getOut().println("Ready to send to qwen-code-cli");
+            IO.select();
+        } catch (Exception ex) {}
     }
 
     private String getText(JTextComponent ed) {
         String s = ed.getSelectedText();
         return (s == null || s.isEmpty()) ? ed.getText() : s;
-    }
-
-    private void run(String prompt, String code) {
-        try {
-            IO.getOut().println("[Explain] " + prompt);
-            IO.getOut().println("--- Code context (" + code.length() + " chars) ---");
-            IO.getOut().println("Ready to send to qwen-code-cli");
-            IO.select();
-        } catch (Exception ex) {}
     }
 
     private static JTextComponent getEditor() {

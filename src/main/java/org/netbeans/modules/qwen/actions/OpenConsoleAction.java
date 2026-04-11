@@ -5,8 +5,6 @@ import javax.swing.AbstractAction;
 import org.netbeans.modules.qwen.ui.QwenConsoleTopComponent;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
-import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -16,11 +14,6 @@ import org.openide.windows.WindowManager;
  */
 @ActionID(category = "Qwen", id = "org.netbeans.modules.qwen.actions.OpenConsoleAction")
 @ActionRegistration(displayName = "#CTL_OpenConsoleAction", lazy = false)
-@ActionReferences({
-    @ActionReference(path = "Menu/Qwen", position = 700),
-    @ActionReference(path = "Toolbars/Qwen", position = 700),
-    @ActionReference(path = "Menu/Window", position = 1000)
-})
 @Messages("CTL_OpenConsoleAction=Qwen: Open Console")
 public final class OpenConsoleAction extends AbstractAction {
 
