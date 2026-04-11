@@ -1,6 +1,5 @@
 package org.netbeans.modules.qwen;
 
-import org.netbeans.modules.qwen.core.Bundle;
 import org.netbeans.modules.qwen.core.QwenCliDetector;
 import org.netbeans.modules.qwen.core.QwenLogger;
 import org.netbeans.modules.qwen.core.QwenPreferences;
@@ -10,11 +9,7 @@ import org.openide.NotifyDescriptor;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.RequestProcessor;
 
-/**
- * Module installer. Runs once when the plugin is loaded.
- * 1. Registers inline completion engine
- * 2. Checks for CLI availability
- */
+/** Module installer — runs on plugin load. */
 public class PluginInstaller extends ModuleInstall {
 
     private static final RequestProcessor RP = new RequestProcessor("QwenInit", 1);
@@ -22,9 +17,7 @@ public class PluginInstaller extends ModuleInstall {
 
     @Override
     public void restored() {
-        // Lazy singleton
         getPrefs();
-
         QwenLogger.getInstance().info("Plugin starting");
 
         // Register inline completion (Copilot-like)
@@ -39,8 +32,10 @@ public class PluginInstaller extends ModuleInstall {
         RP.execute(() -> {
             String path = getPrefs().getCliPath();
             if (!QwenCliDetector.isQwenAvailable(path)) {
-                String msg = QwenCliDetector.getDetectionMessage(path) +
-                             "\n\nInstall: npm install -g @qwen-code/qwen-code\nOr: ollama pull qwen:code";
+                String msg = "Qwen Code CLI not found.\n\n"
+                        + "Install: npm install -g @qwen-code/qwen-code\n"
+                        + "Or: ollama pull qwen:code\n\n"
+                        + "Then configure path in Tools → Options → Qwen AI.";
                 java.awt.EventQueue.invokeLater(() -> {
                     NotifyDescriptor nd = new NotifyDescriptor.Message(msg, NotifyDescriptor.WARNING_MESSAGE);
                     DialogDisplayer.getDefault().notify(nd);

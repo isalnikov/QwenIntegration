@@ -8,19 +8,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import org.netbeans.modules.qwen.core.Bundle;
 import org.netbeans.modules.qwen.core.QwenCliClient;
-import org.netbeans.modules.qwen.core.QwenLogger;
-import org.netbeans.modules.qwen.core.QwenLogger.ConsoleSink;
 import org.netbeans.modules.qwen.core.QwenPreferences;
 import org.netbeans.modules.qwen.core.QwenSession;
 import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 import org.openide.util.NbBundle.Messages;
 
 /**
  * Qwen AI Console — interactive console + log viewer.
- * Shows all CLI output, errors, and plugin activity logs.
+ * Shows all CLI output, errors, and plugin activity.
+ * Access: Qwen → Qwen: Open Console OR Window → Qwen: Open Console
  */
 @TopComponent.Description(
     preferredID = "QwenConsoleTopComponent",
@@ -33,31 +30,28 @@ import org.openide.util.NbBundle.Messages;
 })
 public final class QwenConsoleTopComponent extends TopComponent {
 
-    private static final String PREFERRED_ID = "QwenConsoleTopComponent";
-
     private JTextArea logArea;
     private JTextField inputField;
-
-    private transient QwenSession session;
-    private transient QwenPreferences prefs;
-    private transient QwenCliClient client;
+    private QwenSession session;
+    private QwenPreferences prefs;
+    private QwenCliClient client;
 
     public QwenConsoleTopComponent() {
         initComponents();
-        setName(Bundle.console_title());
-        setToolTipText("Qwen AI Console");
+        setName("Qwen AI Console");
+        setToolTipText("Qwen AI interactive console and log viewer");
 
         session = new QwenSession();
         prefs = new QwenPreferences();
         client = new QwenCliClient(prefs);
 
-        // Register as log sink
-        QwenLogger.getInstance().setSink(line -> appendLog(line));
-
-        appendLog("=== " + Bundle.console_title() + " ===");
-        appendLog(Bundle.msg_welcome());
-        appendLog("Session: " + session.getId());
-        appendLog("");
+        append("=== Qwen AI Console ===");
+        append("Plugin initialized successfully.");
+        append("Session: " + session.getId());
+        append("");
+        append("Commands: /help, /clear, /stats, /compress");
+        append("Any other text is sent to qwen-code-cli.");
+        append("");
     }
 
     private void initComponents() {
@@ -67,36 +61,31 @@ public final class QwenConsoleTopComponent extends TopComponent {
         logArea = new JTextArea();
         logArea.setEditable(false);
         logArea.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
-        JScrollPane scrollPane = new JScrollPane(logArea);
-        add(scrollPane, BorderLayout.CENTER);
+        add(new JScrollPane(logArea), BorderLayout.CENTER);
 
         // Input panel
         JPanel inputPanel = new JPanel(new BorderLayout(5, 5));
         inputPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         inputField = new JTextField();
-        inputField.setToolTipText(Bundle.console_placeholder());
+        inputField.setToolTipText("Type a message... (/help, /clear, /stats, /compress)");
         inputField.addActionListener(e -> sendInput());
         inputPanel.add(inputField, BorderLayout.CENTER);
 
         // Buttons
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-        JButton btnSend = new JButton(Bundle.console_send());
-        JButton btnClear = new JButton(Bundle.console_clear());
+        JPanel btns = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+        JButton btnSend = new JButton("Send");
+        JButton btnClear = new JButton("Clear");
         JButton btnStats = new JButton("/stats");
-        JButton btnCompress = new JButton("/compress");
 
         btnSend.addActionListener(e -> sendInput());
         btnClear.addActionListener(e -> logArea.setText(""));
-        btnStats.addActionListener(e -> appendLog(session.stats()));
-        btnCompress.addActionListener(e -> appendLog("Context compressed (local reset)"));
+        btnStats.addActionListener(e -> append(session.stats()));
 
-        buttons.add(btnSend);
-        buttons.add(btnStats);
-        buttons.add(btnCompress);
-        buttons.add(btnClear);
-        inputPanel.add(buttons, BorderLayout.EAST);
-
+        btns.add(btnSend);
+        btns.add(btnStats);
+        btns.add(btnClear);
+        inputPanel.add(btns, BorderLayout.EAST);
         add(inputPanel, BorderLayout.SOUTH);
     }
 
@@ -104,59 +93,32 @@ public final class QwenConsoleTopComponent extends TopComponent {
         String input = inputField.getText().trim();
         if (input.isEmpty()) return;
         inputField.setText("");
+        append("> " + input);
 
-        appendLog("> " + input);
-
-        // Local commands
-        if (input.equals("/clear")) {
-            session.clear();
-            appendLog("[Session cleared]");
-            return;
-        }
-        if (input.equals("/stats")) {
-            appendLog(session.stats());
-            return;
-        }
-        if (input.equals("/compress")) {
-            appendLog("[Context compressed]");
-            session.clear();
-            return;
-        }
+        if (input.equals("/clear")) { session.clear(); append("[Session cleared]"); return; }
+        if (input.equals("/stats")) { append(session.stats()); return; }
+        if (input.equals("/compress")) { append("[Context compressed]"); session.clear(); return; }
         if (input.equals("/help")) {
-            appendLog("Commands: /clear, /stats, /compress, /help");
-            appendLog("Any other text is sent to qwen-code-cli.");
+            append("Commands: /clear, /stats, /compress, /help");
+            append("Any other text → sent to qwen-code-cli");
             return;
         }
 
         // Send to CLI
         session.setActive(true);
-        QwenLogger.getInstance().info("Console input: " + input);
+        append("[Sending to CLI...]");
         client.executeAsync(input, null, new QwenCliClient.Callback() {
-            @Override public void onOutput(String line) {
-                appendLog(line);
-            }
-            @Override public void onError(String error) {
-                appendLog("[ERROR] " + error);
-            }
-            @Override public void onComplete() {
-                appendLog("\n[Done]");
-            }
+            @Override public void onOutput(String line) { append(line); }
+            @Override public void onError(String error) { append("[ERROR] " + error); }
+            @Override public void onComplete() { append("\n[Done]"); }
         });
     }
 
-    private void appendLog(String line) {
+    private void append(String line) {
         SwingUtilities.invokeLater(() -> {
             logArea.append(line + "\n");
             logArea.setCaretPosition(logArea.getDocument().getLength());
         });
-    }
-
-    public static QwenConsoleTopComponent findInstance() {
-        TopComponent tc = WindowManager.getDefault().findTopComponent(PREFERRED_ID);
-        if (tc == null) {
-            return new QwenConsoleTopComponent();
-        }
-        return (QwenConsoleTopComponent) tc;
     }
 
     @Override

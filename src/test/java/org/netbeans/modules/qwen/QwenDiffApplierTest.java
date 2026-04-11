@@ -1,6 +1,7 @@
 package org.netbeans.modules.qwen;
 
 import org.junit.jupiter.api.Test;
+import org.netbeans.modules.qwen.editor.QwenDiffApplier;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -11,43 +12,44 @@ class QwenDiffApplierTest {
     @Test
     void extractsCodeBlockWithLanguage() {
         String input = "Here is the code:\n```java\npublic class Hello {}\n```\nDone.";
-        String result = org.netbeans.modules.qwen.editor.QwenDiffApplier.extractCodeBlock(input);
-        assertEquals("public class Hello {}", result);
+        assertEquals("public class Hello {}", QwenDiffApplier.extractCodeBlock(input));
     }
 
     @Test
     void extractsCodeBlockWithoutLanguage() {
         String input = "```\nSystem.out.println(\"hi\");\n```";
-        String result = org.netbeans.modules.qwen.editor.QwenDiffApplier.extractCodeBlock(input);
-        assertEquals("System.out.println(\"hi\");", result);
+        assertEquals("System.out.println(\"hi\");", QwenDiffApplier.extractCodeBlock(input));
     }
 
     @Test
     void returnsNullWhenNoCodeBlock() {
-        String input = "Just plain text, no fences.";
-        assertNull(org.netbeans.modules.qwen.editor.QwenDiffApplier.extractCodeBlock(input));
+        assertNull(QwenDiffApplier.extractCodeBlock("Just plain text, no fences."));
     }
 
     @Test
     void returnsNullForEmptyInput() {
-        assertNull(org.netbeans.modules.qwen.editor.QwenDiffApplier.extractCodeBlock(""));
+        assertNull(QwenDiffApplier.extractCodeBlock(""));
     }
 
     @Test
     void returnsNullForNullInput() {
-        assertNull(org.netbeans.modules.qwen.editor.QwenDiffApplier.extractCodeBlock(null));
+        assertNull(QwenDiffApplier.extractCodeBlock(null));
     }
 
     @Test
     void handlesMultilineCodeBlock() {
         String input = "```python\ndef hello():\n    print('world')\n```";
-        String result = org.netbeans.modules.qwen.editor.QwenDiffApplier.extractCodeBlock(input);
-        assertEquals("def hello():\n    print('world')", result);
+        assertEquals("def hello():\n    print('world')", QwenDiffApplier.extractCodeBlock(input));
     }
 
     @Test
     void handlesUnclosedFence() {
-        String input = "```java\nint x = 1;";
-        assertNull(org.netbeans.modules.qwen.editor.QwenDiffApplier.extractCodeBlock(input));
+        assertNull(QwenDiffApplier.extractCodeBlock("```java\nint x = 1;"));
+    }
+
+    @Test
+    void handlesMultipleCodeBlocks_returnsFirst() {
+        String input = "```java\nint a = 1;\n```\n\n```python\nprint('b')\n```";
+        assertEquals("int a = 1;", QwenDiffApplier.extractCodeBlock(input));
     }
 }

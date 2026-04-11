@@ -4,34 +4,25 @@ import org.junit.jupiter.api.Test;
 import org.netbeans.modules.qwen.core.QwenSession;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests for QwenSession.
- */
+/** Tests for QwenSession. */
 class QwenSessionTest {
 
-    @Test
-    void newSessionIsInactive() {
-        QwenSession s = new QwenSession();
-        assertFalse(s.isActive());
-    }
+    @Test void newSessionIsInactive() { assertFalse(new QwenSession().isActive()); }
 
-    @Test
-    void setActiveWorks() {
+    @Test void setActiveWorks() {
         QwenSession s = new QwenSession();
         s.setActive(true);
         assertTrue(s.isActive());
     }
 
-    @Test
-    void recordsTokenUsage() {
+    @Test void recordsTokenUsage() {
         QwenSession s = new QwenSession();
         s.recordUsage("hello world", "foo bar baz");
         assertTrue(s.getMessages() > 0);
         assertTrue(s.getTokens() > 0);
     }
 
-    @Test
-    void clearResetsAll() {
+    @Test void clearResetsAll() {
         QwenSession s = new QwenSession();
         s.setActive(true);
         s.recordUsage("request", "response");
@@ -41,15 +32,13 @@ class QwenSessionTest {
         assertEquals(0, s.getMessages());
     }
 
-    @Test
-    void idIsNotNull() {
+    @Test void idIsNotNull() {
         QwenSession s = new QwenSession();
         assertNotNull(s.getId());
         assertEquals(8, s.getId().length());
     }
 
-    @Test
-    void statsReturnsString() {
+    @Test void statsReturnsString() {
         QwenSession s = new QwenSession();
         s.recordUsage("test", "result");
         String stats = s.stats();
@@ -58,11 +47,16 @@ class QwenSessionTest {
         assertTrue(stats.contains("messages"));
     }
 
-    @Test
-    void multipleRecordsAccumulate() {
+    @Test void multipleRecordsAccumulate() {
         QwenSession s = new QwenSession();
         s.recordUsage("req1", "resp1");
         s.recordUsage("req2", "resp2");
         assertEquals(2, s.getMessages());
+    }
+
+    @Test void uniqueIdsPerSession() {
+        QwenSession s1 = new QwenSession();
+        QwenSession s2 = new QwenSession();
+        assertNotEquals(s1.getId(), s2.getId());
     }
 }

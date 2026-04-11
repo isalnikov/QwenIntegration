@@ -20,7 +20,7 @@
     </properties>
 
     <dependencies>
-        <!-- Core NetBeans platform -->
+        <!-- Core platform -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-annotations-common</artifactId>
@@ -41,39 +41,58 @@
             <artifactId>org-openide-util-lookup</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <!-- Actions registration via annotations -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-awt</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <!-- Windows / TopComponents -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-windows</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <!-- Dialogs -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-dialogs</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <!-- Nodes -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-nodes</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <!-- Text / Editor -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-text</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <!-- Output Window -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-io</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <!-- Module lifecycle -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-modules</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <!-- Options page -->
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-modules-options-api</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <!-- Project API -->
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-modules-projectapi</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
         <!-- Editor -->
@@ -85,18 +104,6 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-editor-lib</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>
-        <!-- Options API -->
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-options-api</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>
-        <!-- Project API -->
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-projectapi</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
         <!-- Completion -->

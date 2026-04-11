@@ -4,12 +4,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.*;
-import org.netbeans.modules.qwen.core.Bundle;
 import org.netbeans.modules.qwen.core.QwenCliDetector;
 import org.netbeans.modules.qwen.core.QwenPreferences;
 
 /**
- * Swing panel for Tools > Options > Qwen AI page.
+ * Swing panel for Tools → Options → Qwen AI.
  */
 final class QwenOptionsPanel extends JPanel {
 
@@ -34,50 +33,39 @@ final class QwenOptionsPanel extends JPanel {
 
         // CLI Path
         c.gridx = 0; c.gridy = 0; c.weightx = 0;
-        add(new JLabel(Bundle.opts_cli_path()), c);
+        add(new JLabel("Path to qwen-code-cli:"), c);
         c.gridx = 1; c.gridy = 0; c.weightx = 1.0;
-        tfCli = new JTextField(30);
-        add(tfCli, c);
+        tfCli = new JTextField(30); add(tfCli, c);
         onChange(tfCli);
         c.gridx = 2; c.gridy = 0; c.weightx = 0;
-        JButton btnBrowse = new JButton("...");
-        btnBrowse.addActionListener(e -> {
+        JButton btnB = new JButton("...");
+        btnB.addActionListener(e -> {
             JFileChooser fc = new JFileChooser();
             fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 tfCli.setText(fc.getSelectedFile().getAbsolutePath());
-                changed = true;
-                checkStatus();
+                changed = true; check();
             }
         });
-        add(btnBrowse, c);
+        add(btnB, c);
 
         // Model
         c.gridx = 0; c.gridy = 1; c.weightx = 0; c.gridwidth = 1;
-        add(new JLabel(Bundle.opts_model()), c);
+        add(new JLabel("Model:"), c);
         c.gridx = 1; c.gridy = 1; c.weightx = 1.0; c.gridwidth = 2;
-        tfModel = new JTextField();
-        add(tfModel, c);
-        onChange(tfModel);
-        c.gridwidth = 1;
+        tfModel = new JTextField(); add(tfModel, c); onChange(tfModel); c.gridwidth = 1;
 
         // Timeout
         c.gridx = 0; c.gridy = 2; c.weightx = 0;
-        add(new JLabel(Bundle.opts_timeout()), c);
+        add(new JLabel("Timeout (seconds):"), c);
         c.gridx = 1; c.gridy = 2; c.weightx = 1.0; c.gridwidth = 2;
-        tfTimeout = new JTextField();
-        add(tfTimeout, c);
-        onChange(tfTimeout);
-        c.gridwidth = 1;
+        tfTimeout = new JTextField(); add(tfTimeout, c); onChange(tfTimeout); c.gridwidth = 1;
 
         // Status
-        c.gridx = 0; c.gridy = 3; c.gridwidth = 3;
-        c.weighty = 1.0;
+        c.gridx = 0; c.gridy = 3; c.gridwidth = 3; c.weighty = 1.0;
         c.anchor = GridBagConstraints.SOUTHWEST;
-        lblStatus = new JLabel(" ");
-        add(lblStatus, c);
-
-        checkStatus();
+        lblStatus = new JLabel(" "); add(lblStatus, c);
+        check();
     }
 
     private void onChange(JTextField tf) {
@@ -92,21 +80,19 @@ final class QwenOptionsPanel extends JPanel {
         tfCli.setText(prefs.getCliPath());
         tfModel.setText(prefs.getModel());
         tfTimeout.setText(String.valueOf(prefs.getTimeout()));
-        changed = false;
-        checkStatus();
+        changed = false; check();
     }
 
     void save() {
         prefs.setCliPath(tfCli.getText().trim());
         try { prefs.setModel(tfModel.getText().trim()); } catch (Exception e) { prefs.setModel(QwenPreferences.DEFAULT_MODEL); }
         try { prefs.setTimeout(Integer.parseInt(tfTimeout.getText().trim())); } catch (Exception e) { prefs.setTimeout(QwenPreferences.DEFAULT_TIMEOUT); }
-        changed = false;
-        checkStatus();
+        changed = false; check();
     }
 
     boolean isChanged() { return changed; }
 
-    private void checkStatus() {
+    private void check() {
         String path = tfCli.getText().trim();
         if (QwenCliDetector.isQwenAvailable(path)) {
             lblStatus.setText("✔ Qwen Code CLI detected");

@@ -12,14 +12,12 @@ import org.netbeans.modules.qwen.core.QwenPreferences;
 
 /**
  * Copilot-like inline completion.
- * After 500ms idle, fetches suggestion from CLI and shows ghost text.
- * Tab = accept, Escape = dismiss.
+ * After 500ms idle → fetch suggestion → show ghost text → Tab accept / Esc dismiss.
  */
 public final class QwenInlineCompletion {
 
     private static final Logger LOG = Logger.getLogger(QwenInlineCompletion.class.getName());
     private static final int DEBOUNCE_MS = 500;
-
     private static QwenInlineCompletion instance;
 
     private final QwenPreferences prefs;
@@ -44,15 +42,12 @@ public final class QwenInlineCompletion {
         debounceTimer.setRepeats(false);
     }
 
-    /** Register on the focus tracking. Call once at startup. */
+    /** Register focus tracking. Call once at startup. */
     public void register() {
-        // Use KeyboardFocusManager to track focus changes
         java.awt.KeyboardFocusManager.getCurrentKeyboardFocusManager()
             .addPropertyChangeListener("permanentFocusOwner", evt -> {
                 Object comp = evt.getNewValue();
-                if (comp instanceof JTextComponent) {
-                    switchTo((JTextComponent) comp);
-                }
+                if (comp instanceof JTextComponent) switchTo((JTextComponent) comp);
             });
     }
 
@@ -61,17 +56,12 @@ public final class QwenInlineCompletion {
         editor = newEditor;
         if (editor == null) return;
 
-        // Caret → restart debounce
         editor.addCaretListener(e -> { dismiss(); restartDebounce(); });
-
-        // Document changes → dismiss
         editor.getDocument().addDocumentListener(new DocumentListener() {
             @Override public void insertUpdate(DocumentEvent e) { dismiss(); }
             @Override public void removeUpdate(DocumentEvent e) { dismiss(); }
             @Override public void changedUpdate(DocumentEvent e) {}
         });
-
-        // Key → Tab accept, Escape dismiss
         editor.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override public void keyPressed(java.awt.event.KeyEvent ke) {
                 if (ke.getKeyCode() == java.awt.event.KeyEvent.VK_TAB && suggestion != null) {
@@ -83,13 +73,10 @@ public final class QwenInlineCompletion {
         });
     }
 
-    private void restartDebounce() {
-        debounceTimer.restart();
-    }
+    private void restartDebounce() { debounceTimer.restart(); }
 
     private void doFetch() {
         if (editor == null || !editor.isShowing() || fetching) return;
-
         int caret = editor.getCaretPosition();
         String ctx = getContext(caret);
         if (ctx == null || ctx.trim().isEmpty()) return;
@@ -110,9 +97,8 @@ public final class QwenInlineCompletion {
                     fetching = false;
                     if (editor != null && editor.isShowing() && editor.getCaretPosition() == savedCaret) {
                         String s = extract(resp.toString());
-                        if (s != null && !s.isEmpty()) {
+                        if (s != null && !s.isEmpty())
                             SwingUtilities.invokeLater(() -> showGhost(s, savedCaret));
-                        }
                     }
                 }
             }
@@ -120,40 +106,26 @@ public final class QwenInlineCompletion {
     }
 
     private String extract(String resp) {
-        // Try code block
         String cb = QwenDiffApplier.extractCodeBlock(resp);
         if (cb != null && !cb.isEmpty()) {
-            for (String line : cb.split("\n")) {
-                if (!line.trim().isEmpty()) return line.trim();
-            }
+            for (String line : cb.split("\n")) if (!line.trim().isEmpty()) return line.trim();
         }
-        // First meaningful line
         for (String line : resp.split("\n")) {
             String t = line.trim();
-            if (!t.isEmpty() && !t.startsWith("[") && !t.startsWith("ERROR")
-                    && !t.startsWith("Processing") && !t.startsWith("Executing")) {
-                return t;
-            }
+            if (!t.isEmpty() && !t.startsWith("[") && !t.startsWith("ERROR") && !t.startsWith("Processing")) return t;
         }
         return null;
     }
 
     private void showGhost(String text, int off) {
-        suggestion = text;
-        offset = off;
-
+        suggestion = text; offset = off;
         JRootPane root = SwingUtilities.getRootPane(editor);
         if (root == null) return;
         JLayeredPane lp = root.getLayeredPane();
-
-        if (ghostLabel == null) {
-            ghostLabel = new GhostComponent();
-        }
-
+        if (ghostLabel == null) ghostLabel = new GhostComponent();
         ghostLabel.setFont(editor.getFont());
         ((GhostComponent) ghostLabel).setText(text);
         lp.add(ghostLabel, JLayeredPane.POPUP_LAYER);
-
         reposition();
     }
 
@@ -180,10 +152,7 @@ public final class QwenInlineCompletion {
         }
     }
 
-    private void dismiss() {
-        hideGhost();
-        debounceTimer.stop();
-    }
+    private void dismiss() { hideGhost(); debounceTimer.stop(); }
 
     private void accept() {
         if (suggestion == null || editor == null) return;
@@ -204,15 +173,10 @@ public final class QwenInlineCompletion {
         } catch (BadLocationException e) { return null; }
     }
 
-    // ---- Ghost rendering ----
-
     private class GhostComponent extends JComponent {
         private String text;
-
         GhostComponent() { setOpaque(false); }
-
         void setText(String t) { this.text = t; repaint(); }
-
         @Override protected void paintComponent(Graphics g) {
             if (text == null) return;
             Graphics2D g2 = (Graphics2D) g.create();
@@ -223,7 +187,6 @@ public final class QwenInlineCompletion {
             g2.drawString(text, 0, fm.getAscent());
             g2.dispose();
         }
-
         @Override public Dimension getPreferredSize() {
             if (text == null || getFont() == null) return new Dimension(0, 0);
             return new Dimension(getFontMetrics(getFont()).stringWidth(text), getFontMetrics(getFont()).getHeight());

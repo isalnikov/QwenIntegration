@@ -1,24 +1,16 @@
 package org.netbeans.modules.qwen.editor;
 
 import java.util.logging.Logger;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.BadLocationException;
-import org.openide.DialogDescriptor;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
+import javax.swing.text.*;
 
-/**
- * Applies code from Qwen responses to the active editor.
- */
+/** Applies code from Qwen responses to the active editor. */
 public final class QwenDiffApplier {
-
     private static final Logger LOG = Logger.getLogger(QwenDiffApplier.class.getName());
 
     public enum Result { APPLIED, PARSE_ERROR, NO_EDITOR }
 
     public static Result apply(String response) {
         if (response == null || response.isEmpty()) return Result.PARSE_ERROR;
-
         JTextComponent editor = getActiveEditor();
         if (editor == null) return Result.NO_EDITOR;
 
@@ -54,8 +46,7 @@ public final class QwenDiffApplier {
     }
 
     private static JTextComponent getActiveEditor() {
-        java.awt.Component c = java.awt.KeyboardFocusManager
-                .getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+        java.awt.Component c = java.awt.KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
         return (c instanceof JTextComponent) ? (JTextComponent) c : null;
     }
 }
